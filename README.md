@@ -30,4 +30,4 @@ O projeto tem como finalidade:
 - **Java**
 - **JDBC**
 - **Banco de dados H2**
-- **Git &**
+- **Git & Github**
