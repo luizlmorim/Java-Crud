@@ -1,0 +1,19 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# IntelliJ
+.idea/
+*.iml
+
+# Compilação
+out/
+*.class
+
+# Banco H2
+*.mv.db
+*.trace.db
+data/
+
+# JARs locais
+*.jar
+
