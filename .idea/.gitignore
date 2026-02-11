@@ -8,3 +8,15 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+# IntelliJ
+.idea/
+*.iml
+
+# Banco H2
+data/
+*.mv.db
+*.trace.db
+
+# Build
+out/
+target/
