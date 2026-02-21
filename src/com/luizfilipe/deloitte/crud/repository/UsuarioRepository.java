@@ -17,7 +17,7 @@ public class UsuarioRepository {
 
     private static final String URL = "jdbc:h2:file:./data/testdb;DB_CLOSE_ON_EXIT=FALSE;";
     private static final String USER = "sa";
-    private static final String PASSWORD = "12345";
+    private static final String PASSWORD = "";
 
     //Garante que a tabela existe
     //Antes de qualquer operação de CRUD
