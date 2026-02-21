@@ -51,15 +51,23 @@ public class UsuarioRepository {
     }
 
     //salavar user ( CREATE )
-    public void salvar(com.luizfilipe.deloitte.crud.model.Usuario usuario) {
+    public void salvar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome, email) VALUES (?, ?)";
 
         try (Connection conn = getConnection();
-             var pstmt = conn.prepareStatement(sql)) {
+             var pstmt = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, usuario.getNome());
             pstmt.setString(2, usuario.getEmail());
+
             pstmt.executeUpdate();
+
+            // Captura o ID gerado
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    usuario.setId(rs.getLong(1));
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

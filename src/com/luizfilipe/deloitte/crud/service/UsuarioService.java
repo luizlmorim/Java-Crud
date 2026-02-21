@@ -15,19 +15,22 @@ public class UsuarioService {
     }
 
     //CRIAR USUÁRIO
-    public void criarUsuario(Usuario usuario) {
+    public Usuario criarUsuario(Usuario usuario) {
+
         if (usuario.getNome() == null || usuario.getNome().isBlank()) {
             System.out.println("Nome do usuário é obrigatório.");
-            return;
+            return null;
         }
 
         if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
             System.out.println("Email do usuário é obrigatório.");
-            return;
+            return null;
         }
 
         repository.salvar(usuario);
-        System.out.println("Usuário criado com sucesso!");
+
+        return usuario;
+
     }
 
     // lista usuários

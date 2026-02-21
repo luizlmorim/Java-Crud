@@ -42,7 +42,17 @@ public class Main {
                     String email = scanner.nextLine();
 
                     Usuario usuario = new Usuario(null, nome, email);
-                    service.criarUsuario(usuario);
+
+                    Usuario usuarioCriado = service.criarUsuario(usuario);
+
+                    if (usuarioCriado != null) {
+                        System.out.println("Usuário criado com sucesso!");
+                        System.out.println(
+                                "ID: " + usuarioCriado.getId() +
+                                        " | Nome: " + usuarioCriado.getNome() +
+                                        " | Email: " + usuarioCriado.getEmail()
+                        );
+                    }
                     break;
 
                 case 2:
@@ -112,7 +122,30 @@ public class Main {
 
                     try {
                         Long idRemover = Long.parseLong(entradaIdRemover);
-                        service.removerUsuario(idRemover);
+
+                        Usuario usuarioParaRemover = service.buscarUsuarioPorId(idRemover);
+
+                        if (usuarioParaRemover == null) {
+                            System.out.println("Usuário não encontrado.");
+                            break;
+                        }
+
+                        System.out.println("Usuário encontrado:");
+                        System.out.println(
+                                "ID: " + usuarioParaRemover.getId() +
+                                        " | Nome: " + usuarioParaRemover.getNome() +
+                                        " | Email: " + usuarioParaRemover.getEmail()
+                        );
+
+                        System.out.print("Tem certeza que deseja excluir? (S/N): ");
+                        String confirmacao = scanner.nextLine();
+
+                        if (confirmacao.equalsIgnoreCase("S")) {
+                            service.removerUsuario(idRemover);
+                        } else {
+                            System.out.println("Exclusão cancelada.");
+                        }
+
                     } catch (NumberFormatException e) {
                         System.out.println("ID inválido!");
                     }
