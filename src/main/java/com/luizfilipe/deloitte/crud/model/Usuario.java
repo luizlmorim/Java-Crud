@@ -11,52 +11,39 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private String nome;
-
 
     @Column(nullable = false)
     private String email;
 
-
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
+    public Usuario() {}
 
-    public Usuario(){}
-
-
-    public Usuario(Long id, String nome, String email){
-
-        if (nome == null || nome.isBlank())
-            throw new IllegalArgumentException("Nome obrigatório");
-
-        if (email == null || email.isBlank())
-            throw new IllegalArgumentException("Email obrigatório");
-
+    public Usuario(Long id, String nome, String email) {
+        if (nome == null || nome.isBlank()) throw new IllegalArgumentException("Nome obrigatório");
+        if (email == null || email.isBlank()) throw new IllegalArgumentException("Email obrigatório");
         this.id = id;
         this.nome = nome;
         this.email = email;
     }
 
-
     @PrePersist
-    public void prePersist(){
-
+    public void prePersist() {
         this.dataCriacao = LocalDateTime.now();
-
     }
 
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // getters setters
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public Long getId(){ return id; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getNome(){ return nome; }
-
-    public String getEmail(){ return email; }
-
-    public LocalDateTime getDataCriacao(){ return dataCriacao; }
-
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
 }

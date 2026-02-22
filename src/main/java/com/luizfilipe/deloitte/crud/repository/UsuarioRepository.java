@@ -1,121 +1,47 @@
 package com.luizfilipe.deloitte.crud.repository;
 
 import com.luizfilipe.deloitte.crud.model.Usuario;
-import com.luizfilipe.deloitte.crud.util.JPAUtil;
-
+import com.luizfilipe.deloitte.crud.model.Usuario;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
 public class UsuarioRepository {
 
-    // CREATE
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
     public Usuario salvar(Usuario usuario){
-
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            em.getTransaction().begin();
-
-            em.persist(usuario);
-
-            em.getTransaction().commit();
-
+        if(usuario.getId() == null){
+            entityManager.persist((usuario));
             return usuario;
-
-        } finally {
-
-            em.close();
-
+        } else {
+            return  entityManager.merge(usuario);
         }
-
     }
 
-
-    // READ (agora lista TODOS)
     public List<Usuario> listar(){
-
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            return em.createQuery(
-                    "SELECT u FROM Usuario u",
-                    Usuario.class
-            ).getResultList();
-
-        } finally {
-
-            em.close();
-
-        }
-
+        return entityManager.createQuery("FROM Usuario", Usuario.class).getResultList();
     }
 
-
-    // READ BY ID
     public Usuario buscarPorId(Long id){
-
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            return em.find(Usuario.class, id);
-
-        } finally {
-
-            em.close();
-
-        }
-
+        return entityManager.find(Usuario.class, id);
     }
 
-
-    // UPDATE
-    public void atualizar(Usuario usuario){
-
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            em.getTransaction().begin();
-
-            em.merge(usuario);
-
-            em.getTransaction().commit();
-
-        } finally {
-
-            em.close();
-
-        }
-
-    }
-
-
-    // DELETE FÍSICO (REMOVE DO BANCO)
+    @Transactional
     public void remover(Long id){
-
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            Usuario usuario = em.find(Usuario.class, id);
-
-            if(usuario != null){
-
-                em.getTransaction().begin();
-
-                em.remove(usuario);
-
-                em.getTransaction().commit();
-
-            }
-
-        } finally {
-
-            em.close();
-
+        Usuario u = buscarPorId(id);
+        if(u != null){
+            entityManager.remove(u);
         }
 
     }
