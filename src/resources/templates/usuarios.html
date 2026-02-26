@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários</title>
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h2>Lista de Usuários</h2>
+
+<a th:href="@{/usuarios/novo}" class="btn btn-primary mb-3">
+    Novo Usuário
+</a>
+
+
+<form th:action="@{/usuarios/buscar}" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="number" name="id" class="form-control" placeholder="Digite o ID">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Buscar</button>
+    </div>
+</form>
+
+<div th:if="${erro}" class="alert alert-danger">
+    <span th:text="${erro}"></span>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${usuarios}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.nome}"></td>
+        <td th:text="${u.email}"></td>
+        <td>
+            <a th:href="@{/usuarios/{id}(id=${u.id})}"
+               class="btn btn-info btn-sm">Visualizar</a>
+
+            <a th:href="@{/usuarios/editar/{id}(id=${u.id})}"
+               class="btn btn-warning btn-sm">Editar</a>
+
+            <a th:href="@{/usuarios/excluir/{id}(id=${u.id})}"
+               class="btn btn-danger btn-sm">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

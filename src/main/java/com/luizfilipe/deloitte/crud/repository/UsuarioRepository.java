@@ -30,7 +30,7 @@ public class UsuarioRepository {
     }
 
     public List<Usuario> listar(){
-        return entityManager.createQuery("FROM Usuario", Usuario.class).getResultList();
+        return entityManager.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
     }
 
     public Usuario buscarPorId(Long id){
