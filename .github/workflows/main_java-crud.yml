@@ -36,13 +36,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-      
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
       
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BEA1CCB452E347C08060FC4842756E11 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DA3762EAC25744E7853642741773F8A8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_80C88CD7A35847B3BB3EF3DAFB345A8B }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -50,4 +60,4 @@ jobs:
           app-name: 'java-crud'
           slot-name: 'Production'
           package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_49D5120989904630993D823D7328F0F3 }}
+          
